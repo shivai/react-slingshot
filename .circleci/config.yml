@@ -36,9 +36,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      restore_cache:
-        keys:
-          - "npm-pkg"
+      - restore_cache:
+          keys:
+            - "npm-pkg"
       - run: npm run audit
 workflows:
   say-hello-workflow:
