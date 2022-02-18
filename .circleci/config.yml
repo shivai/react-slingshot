@@ -1,0 +1,52 @@
+version: 2.1
+orbs:
+  welcome: circleci/welcome-orb@0.4.1
+commands:
+  print_pipeline_id:
+    parameters:
+      id:
+        type: string
+    steps:
+      - run: echo << parameters.id >>
+defaults: &defaults
+  docker:
+    - image: circleci/node:13.8.0
+    
+jobs:
+
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: npm i
+      - save_cache:
+          key: "npm-pkg"
+          paths:
+            - /src/node_module
+      - run: npm run lint
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - "npm-pkg"
+      - run: npm i
+      - run: npm run test
+  analyze:
+    <<: *defaults
+    steps:
+      - checkout
+      restore_cache:
+        keys:
+          - "npm-pkg"
+      - run: npm run audit
+
+workflows:
+  say-hello-workflow:
+    jobs:
+      - build
+      - test:
+          requires: [build]
+      - analyze:
+          requires: [test]
