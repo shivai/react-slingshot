@@ -39,7 +39,7 @@ jobs:
       - restore_cache:
           keys:
             - "npm-pkg"
-      - run: npm audit
+      - run: npm audit fix
 workflows:
   say-hello-workflow:
     jobs:
