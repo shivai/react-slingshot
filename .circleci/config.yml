@@ -13,7 +13,6 @@ defaults: &defaults
     - image: circleci/node:13.8.0
     
 jobs:
-
   build:
     <<: *defaults
     steps:
@@ -41,7 +40,6 @@ jobs:
         keys:
           - "npm-pkg"
       - run: npm run audit
-
 workflows:
   say-hello-workflow:
     jobs:
